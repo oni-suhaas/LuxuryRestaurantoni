@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>My Bookings</title>
+
+<style>
+
+body{
+margin:0;
+font-family:'Segoe UI',sans-serif;
+background:#0b0b0b;
+color:white;
+}
+
+/* HEADER */
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 40px;
+border-bottom:1px solid gold;
+}
+
+.header h2{
+color:gold;
+animation:glow 2s infinite;
+}
+
+@keyframes glow{
+0%{text-shadow:0 0 5px gold;}
+50%{text-shadow:0 0 20px gold;}
+100%{text-shadow:0 0 5px gold;}
+}
+
+.logout{
+background:gold;
+border:none;
+padding:8px 15px;
+cursor:pointer;
+border-radius:6px;
+}
+
+/* STATS */
+.stats{
+padding:20px 40px;
+}
+
+.card{
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(10px);
+border:1px solid rgba(255,215,0,0.3);
+border-radius:12px;
+padding:20px;
+text-align:center;
+box-shadow:0 0 15px rgba(255,215,0,0.2);
+width:200px;
+}
+
+/* TABLE */
+.container{
+padding:20px 40px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+background:rgba(255,255,255,0.05);
+border-radius:10px;
+overflow:hidden;
+box-shadow:0 0 15px rgba(255,215,0,0.2);
+}
+
+th{
+background:gold;
+color:black;
+padding:12px;
+}
+
+td{
+padding:12px;
+text-align:center;
+border-bottom:1px solid #333;
+}
+
+tr{
+transition:0.3s;
+}
+
+tr:hover{
+background:#1a1a1a;
+transform:scale(1.01);
+}
+
+/* BUTTON */
+.cancel-btn{
+background:red;
+color:white;
+padding:6px 12px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.cancel-btn:hover{
+background:#ff4444;
+box-shadow:0 0 10px red;
+}
+
+/* EMPTY */
+.empty{
+text-align:center;
+padding:20px;
+color:#aaa;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+<h2>📖 My Bookings</h2>
+<button class="logout" onclick="logout()">Logout</button>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+<div class="card">
+<h3>Total Bookings</h3>
+<p id="count">0</p>
+</div>
+</div>
+
+<!-- TABLE -->
+<div class="container">
+
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Name</th>
+<th>Mobile</th>
+<th>Guests</th>
+<th>Date</th>
+<th>Time</th>
+<th>Table</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="data"></tbody>
+
+</table>
+
+</div>
+
+<script>
+
+// 🔐 LOGIN CHECK
+let user = localStorage.getItem("viewUser");
+
+if(!user){
+alert("Login first ❌");
+window.location.href="my-bookings-login.html";
+}
+
+// LOAD BOOKINGS
+async function load(){
+
+let res = await fetch("/bookings");
+let data = await res.json();
+
+// FILTER BY USER
+let my = data.filter(b => b.username === user);
+
+let tbody = document.getElementById("data");
+let count = document.getElementById("count");
+
+tbody.innerHTML="";
+count.innerText = my.length;
+
+if(my.length===0){
+tbody.innerHTML="<tr><td colspan='8' class='empty'>No bookings found</td></tr>";
+return;
+}
+
+my.forEach((b,i)=>{
+tbody.innerHTML+=`
+<tr>
+<td>${i+1}</td>
+<td>${b.name}</td>
+<td>${b.mobile}</td>
+<td>${b.guests}</td>
+<td>${b.date}</td>
+<td>${b.time}</td>
+<td>${b.tableNumber}</td>
+<td>
+<button class="cancel-btn" onclick="del('${b._id}')">Cancel</button>
+</td>
+</tr>`;
+});
+
+}
+
+// DELETE BOOKING
+async function del(id){
+
+if(!confirm("Cancel this booking?")) return;
+
+await fetch(`/delete/${id}`,{method:"DELETE"});
+load();
+
+}
+
+// LOGOUT
+function logout(){
+localStorage.removeItem("viewUser");
+window.location.href="index.html";
+}
+
+// INIT
+load();
+
+</script>
+
+</body>
+</html>
