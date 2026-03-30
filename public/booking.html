@@ -340,14 +340,18 @@ async function book(){
 
 if(!selected){alert("Select table");return;}
 
-let res=await fetch("https://luxuryrestaurantoni.onrender.com/book",{
+let nameValue = document.getElementById("name").value.trim();
+let mobileValue = document.getElementById("mobile").value.trim();
+let guestsValue = document.getElementById("guests").value.trim();
+
+let res = await fetch("https://luxuryrestaurantoni.onrender.com/book",{
 method:"POST",
 headers:{"Content-Type":"application/json"},
 body:JSON.stringify({
 username:user,
-name:name.value,
-mobile:mobile.value,
-guests:guests.value,
+name:nameValue,
+mobile:mobileValue,
+guests:guestsValue,
 date:date.value,
 time:time.value,
 tableNumber:selected
