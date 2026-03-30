@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Reserve Table</title>
+
+<style>
+
+body{
+margin:0;
+font-family:'Segoe UI',sans-serif;
+background:#0b0b0b;
+color:white;
+}
+
+/* HEADER */
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 40px;
+border-bottom:1px solid gold;
+}
+
+.header h2{
+color:gold;
+animation:glow 2s infinite;
+}
+
+@keyframes glow{
+0%{text-shadow:0 0 5px gold;}
+50%{text-shadow:0 0 20px gold;}
+100%{text-shadow:0 0 5px gold;}
+}
+
+.logout{
+background:gold;
+border:none;
+padding:8px 15px;
+cursor:pointer;
+border-radius:5px;
+}
+
+/* LAYOUT */
+.container{
+display:flex;
+gap:40px;
+padding:30px;
+}
+
+/* LEFT */
+.left{width:50%;}
+.section{margin-bottom:30px;}
+.section h3{color:gold;}
+
+.tables{
+display:flex;
+gap:15px;
+flex-wrap:wrap;
+}
+
+/* TABLE */
+.table{
+width:80px;
+height:60px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:8px;
+cursor:pointer;
+background:#111;
+transition:0.3s;
+font-weight:bold;
+}
+
+.couple{border:2px solid pink;}
+.window{border:2px solid skyblue;}
+.family{border:2px solid orange;}
+.vip{border:2px solid violet;}
+
+.table:hover{
+transform:scale(1.1);
+box-shadow:0 0 15px gold;
+}
+
+.selected{
+background:green;
+animation:pulse 1s infinite;
+}
+
+.booked{
+background:red;
+opacity:0.6;
+cursor:not-allowed;
+}
+
+@keyframes pulse{
+0%{box-shadow:0 0 5px green;}
+50%{box-shadow:0 0 20px lime;}
+100%{box-shadow:0 0 5px green;}
+}
+
+/* RIGHT FORM */
+.right{width:50%;}
+
+.form{
+padding:25px;
+border-radius:15px;
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(15px);
+border:1px solid rgba(255,215,0,0.3);
+box-shadow:0 0 20px rgba(255,215,0,0.2);
+animation:fadeIn 1s ease;
+}
+
+@keyframes fadeIn{
+from{opacity:0; transform:translateY(20px);}
+to{opacity:1; transform:translateY(0);}
+}
+
+.form h2{color:gold;}
+
+input,select{
+width:100%;
+padding:12px;
+margin:10px 0;
+background:#111;
+border:1px solid gold;
+border-radius:8px;
+color:white;
+}
+
+/* 🔥 FIX DROPDOWN */
+option{
+background:#111;
+color:white;
+}
+
+input:focus,select:focus{
+box-shadow:0 0 10px gold;
+}
+
+/* BUTTON */
+button{
+padding:12px;
+background:gold;
+border:none;
+border-radius:6px;
+cursor:pointer;
+margin-top:10px;
+font-weight:bold;
+}
+
+button:hover{
+box-shadow:0 0 10px gold;
+}
+
+/* POPUP */
+.popup{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.7);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:999;
+}
+
+.popup-box{
+background:#111;
+padding:30px;
+border-radius:12px;
+text-align:center;
+border:1px solid gold;
+animation:zoomIn 0.4s ease;
+}
+
+@keyframes zoomIn{
+from{transform:scale(0.5); opacity:0;}
+to{transform:scale(1); opacity:1;}
+}
+
+.popup-box h2{color:gold;}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+<h2>Reserve Your Table</h2>
+<button class="logout" onclick="logout()">Logout</button>
+</div>
+
+<div class="container">
+
+<!-- LEFT -->
+<div class="left">
+
+<div class="section">
+<h3>❤️ Couple</h3>
+<div class="tables">
+<div class="table couple" data-table="C1">C1</div>
+<div class="table couple" data-table="C2">C2</div>
+<div class="table couple" data-table="C3">C3</div>
+<div class="table couple" data-table="C4">C4</div>
+</div>
+</div>
+
+<div class="section">
+<h3>🪟 Window</h3>
+<div class="tables">
+<div class="table window" data-table="W1">W1</div>
+<div class="table window" data-table="W2">W2</div>
+<div class="table window" data-table="W3">W3</div>
+<div class="table window" data-table="W4">W4</div>
+</div>
+</div>
+
+<div class="section">
+<h3>👨‍👩‍👧 Family</h3>
+<div class="tables">
+<div class="table family" data-table="F1">F1</div>
+<div class="table family" data-table="F2">F2</div>
+<div class="table family" data-table="F3">F3</div>
+<div class="table family" data-table="F4">F4</div>
+</div>
+</div>
+
+<div class="section">
+<h3>⭐ VIP</h3>
+<div class="tables">
+<div class="table vip" data-table="V1">V1</div>
+<div class="table vip" data-table="V2">V2</div>
+<div class="table vip" data-table="V3">V3</div>
+<div class="table vip" data-table="V4">V4</div>
+</div>
+</div>
+
+</div>
+
+<!-- RIGHT -->
+<div class="right">
+
+<div class="form">
+<h2>Book Table</h2>
+
+<input id="name" placeholder="Name">
+<input id="mobile" placeholder="Mobile Number">
+<input id="guests" placeholder="Guests">
+
+<input id="date" type="date">
+<select id="time"></select>
+
+<button onclick="book()">Reserve</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- POPUP -->
+<div id="popup" class="popup">
+<div class="popup-box">
+<h2>✅ Booking Confirmed</h2>
+<p id="bookingText"></p>
+<button onclick="closePopup()">OK</button>
+</div>
+</div>
+
+<script>
+
+// LOGIN CHECK
+let user = localStorage.getItem("loggedInUser");
+if(!user){
+alert("Login required!");
+window.location.href="user-login.html";
+}
+
+// LOGOUT
+function logout(){
+localStorage.removeItem("loggedInUser");
+window.location.href="index.html";
+}
+
+// SELECT TABLE
+let selected="";
+document.querySelectorAll(".table").forEach(t=>{
+t.onclick=()=>{
+if(t.classList.contains("booked")){
+alert("Already booked");
+return;
+}
+selected=t.dataset.table;
+document.querySelectorAll(".table").forEach(x=>x.classList.remove("selected"));
+t.classList.add("selected");
+}
+});
+
+// DATE
+date.min = new Date().toISOString().split("T")[0];
+
+// 🔥 FIXED TIME DROPDOWN
+let time = document.getElementById("time");
+time.innerHTML = '<option value="">Select Time</option>';
+
+for(let h=10; h<=23; h++){
+let hour = h > 12 ? h - 12 : h;
+let ampm = h >= 12 ? "PM" : "AM";
+
+let opt = document.createElement("option");
+opt.value = h + ":00";
+opt.textContent = hour + ":00 " + ampm;
+
+time.appendChild(opt);
+}
+
+// CHECK
+async function check(){
+if(!date.value||!time.value)return;
+
+let res=await fetch(`https://luxuryrestaurantoni.onrender.com/booked?date=${date.value}&time=${time.value}`);
+let data=await res.json();
+
+document.querySelectorAll(".table").forEach(t=>{
+t.classList.toggle("booked",data.includes(t.dataset.table));
+});
+}
+
+date.onchange=check;
+time.onchange=check;
+
+// BOOK
+async function book(){
+
+if(!selected){alert("Select table");return;}
+
+let res=await fetch("https://luxuryrestaurantoni.onrender.com/book",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+username:user,
+name:name.value,
+mobile:mobile.value,
+guests:guests.value,
+date:date.value,
+time:time.value,
+tableNumber:selected
+})
+});
+
+let r=await res.json();
+
+if(r.success){
+document.getElementById("popup").style.display="flex";
+document.getElementById("bookingText").innerText =
+"Table " + selected + " booked successfully!";
+check();
+}else{
+alert("Already booked ❌");
+}
+
+}
+
+// CLOSE POPUP
+function closePopup(){
+document.getElementById("popup").style.display="none";
+}
+
+</script>
+
+</body>
+</html>

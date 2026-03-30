@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Luxury Restaurant</title>
+
+<style>
+
+body{
+margin:0;
+font-family:'Segoe UI', sans-serif;
+background:url("https://images.unsplash.com/photo-1555992336-03a23c7b20ee");
+background-size:cover;
+background-position:center;
+color:white;
+}
+
+/* DARK GLASS OVERLAY */
+.overlay{
+background:rgba(0,0,0,0.75);
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+}
+
+/* TITLE */
+h1{
+color:gold;
+font-size:60px;
+margin-bottom:10px;
+text-shadow:0 0 20px gold;
+animation:glow 2s infinite;
+}
+
+p{
+font-size:20px;
+color:#ddd;
+margin-bottom:30px;
+}
+
+/* BUTTONS CONTAINER */
+.buttons{
+display:flex;
+flex-direction:column;
+gap:20px;
+}
+
+/* BUTTON STYLE */
+button{
+padding:14px 35px;
+font-size:18px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
+background:linear-gradient(45deg,gold,orange);
+color:black;
+transition:0.3s;
+box-shadow:0 0 10px gold;
+}
+
+button:hover{
+transform:scale(1.1);
+box-shadow:0 0 25px gold;
+}
+
+/* ANIMATION */
+@keyframes glow{
+0%{text-shadow:0 0 10px gold;}
+50%{text-shadow:0 0 30px gold;}
+100%{text-shadow:0 0 10px gold;}
+}
+
+.note{
+margin-top:20px;
+font-size:14px;
+color:#ddd;
+text-align:center;
+line-height:1.6;
+background:rgba(255,255,255,0.05);
+padding:10px 15px;
+border-radius:8px;
+border:1px solid rgba(255,215,0,0.3);
+box-shadow:0 0 10px rgba(255,215,0,0.2);
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="overlay">
+
+<h1>Luxury Restaurant</h1>
+<p>Reserve your table in seconds 🍽️</p>
+<p class="note">
+Forgot your username or password? <br>
+📧 Mail us at <b>luxuryresturant@gmail.com</b><br>
+We will send you new login credentials.
+</p>
+
+<div class="buttons">
+
+<a href="user-login.html">
+<button>👤 User Login</button>
+</a>
+
+<a href="admin-login.html">
+<button>🔐 Admin Login</button>
+</a>
+
+<a href="my-bookings-login.html">
+<button>📋 My Bookings</button>
+</a>
+
+</div>
+
+</div>
+
+</body>
+</html>
