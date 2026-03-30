@@ -187,7 +187,7 @@ window.location.href="admin-login.html";
 // LOAD BOOKINGS
 async function load(){
 
-let res = await fetch("/bookings");
+let res = await fetch("https://luxuryrestaurantoni.onrender.com/bookings");
 let data = await res.json();
 
 let tbody = document.getElementById("data");
@@ -224,7 +224,7 @@ async function del(id){
 
 if(!confirm("Delete booking?")) return;
 
-await fetch(`/delete/${id}`,{method:"DELETE"});
+await fetch(`https://luxuryrestaurantoni.onrender.com/delete/${id}`,{method:"DELETE"});
 load();
 
 }
